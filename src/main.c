@@ -51,7 +51,7 @@ int main(void)
 {
     int ret;
 
-    LOG_INF("ESP32 IoT Application Starting...");
+    LOG_INF("TapGate starting...");
 
     /* 1. Initialize LittleFS */
     ret = storage_init();

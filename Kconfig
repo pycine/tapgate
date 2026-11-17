@@ -1,13 +1,23 @@
-mainmenu "WiFi HTTP Client Application"
+mainmenu "TapGate - RFID Access Control & Attendance"
 
 config WIFI_SSID
 	string "WiFi SSID"
+	default ""
 	help
 	  SSID of the WiFi network to connect to.
 
+	  Do not set this in a tracked file. Put the real value in a
+	  git-ignored prj.local.conf and build with
+	  -DEXTRA_CONF_FILE=prj.local.conf.
+
 config WIFI_PSK
 	string "WiFi Password"
+	default ""
 	help
 	  WPA2-PSK password for the WiFi network.
+
+	  Do not set this in a tracked file. Put the real value in a
+	  git-ignored prj.local.conf and build with
+	  -DEXTRA_CONF_FILE=prj.local.conf.
 
 source "Kconfig.zephyr"

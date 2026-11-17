@@ -65,6 +65,13 @@ int wifi_init_and_connect(void)
 {
     int ret;
 
+    if (strlen(CONFIG_WIFI_SSID) == 0) {
+        LOG_ERR("No WiFi credentials configured.");
+        LOG_ERR("Copy prj.local.conf.example to prj.local.conf, fill it in, and");
+        LOG_ERR("build with -DEXTRA_CONF_FILE=prj.local.conf");
+        return -EINVAL;
+    }
+
     net_mgmt_init_event_callback(&wifi_cb, wifi_event_handler,
                                  NET_EVENT_WIFI_CONNECT_RESULT |
                                  NET_EVENT_WIFI_DISCONNECT_RESULT);

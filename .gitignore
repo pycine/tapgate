@@ -5,3 +5,15 @@ modules/
 tools
 zephyr/
 bootloader/
+
+# Local secrets / machine-specific config
+prj.local.conf
+*.local.conf
+.env
+
+# Mock backend runtime output
+mock_backend/events.jsonl
+
+# Python
+__pycache__/
+*.pyc
