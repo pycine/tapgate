@@ -4,7 +4,7 @@ Firmware for an RFID **access-control and attendance terminal**, built on **Zeph
 
 Tap a card and the device decides on the spot: the UID is checked against a whitelist mirrored in RAM (backed by LittleFS on flash), an indicator is driven to grant access, and the scan is reported to a central backend over WiFi. The employee list delta-syncs from that backend, so the terminal keeps working when the network — or the server — is down.
 
-> **Status:** internship/portfolio project, hardware-verified on an ESP32-DevKitC + MFRC522. Plain HTTP (no TLS), no OTA, no test suite. See [Limitations](#limitations).
+> **Status:** internship/portfolio project, hardware-verified on an ESP32-DevKitC + MFRC522. Plain HTTP (no TLS), no OTA, no test suite.
 
 ---
 
