@@ -22,8 +22,7 @@ Tap a card and the device decides on the spot: the UID is checked against a whit
 10. [Mock backend](#mock-backend)
 11. [Configuration reference](#configuration-reference)
 12. [Troubleshooting](#troubleshooting)
-13. [Limitations](#limitations)
-14. [License](#license)
+13. [License](#license)
 
 ---
 
@@ -353,15 +352,7 @@ curl -X POST localhost:8000/events -H 'Content-Type: application/json' \
 | Build: unknown board | ESP32 HAL modules not in the workspace — run `west update` |
 | Weird/duplicate UIDs after deleting employees | Should be impossible now that `fs_truncate` runs before every write; if seen, flash was written by older firmware |
 
-## Limitations
 
-- **No TLS.** Credentials and attendance data cross the LAN in clear text; unsuitable as-is for untrusted networks.
-- **No event durability.** Events dropped from a full queue or failing `POST` are lost, not retried.
-- **200 UID ceiling** for the local whitelist, 24 bytes per UID.
-- **No RTC.** Wall-clock time comes only from the server.
-- **Plain-text whitelist** on flash; no encryption or signing.
-- **No OTA update path** — flashing is via USB.
-- **No automated tests**; verification is hardware-in-the-loop.
 
 ## License
 
