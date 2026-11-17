@@ -65,10 +65,10 @@ int wifi_init_and_connect(void)
 {
     int ret;
 
-    if (strlen(CONFIG_WIFI_SSID) == 0) {
-        LOG_ERR("No WiFi credentials configured.");
-        LOG_ERR("Copy prj.local.conf.example to prj.local.conf, fill it in, and");
-        LOG_ERR("build with -DEXTRA_CONF_FILE=prj.local.conf");
+    if (strlen(CONFIG_WIFI_SSID) == 0 ||
+        strcmp(CONFIG_WIFI_SSID, "your-ssid") == 0) {
+        LOG_ERR("WiFi credentials not set.");
+        LOG_ERR("Edit CONFIG_WIFI_SSID / CONFIG_WIFI_PSK in prj.conf");
         return -EINVAL;
     }
 

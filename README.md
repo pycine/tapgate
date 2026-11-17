@@ -252,8 +252,7 @@ Only used by the mock backend below; the firmware doesn't call it.
 │   └── server_config.h                backend host/port
 ├── CMakeLists.txt
 ├── Kconfig
-├── prj.conf                           committed Zephyr config
-├── prj.local.conf.example             copy → prj.local.conf (git-ignored)
+├── prj.conf                           Zephyr config; set WiFi credentials here
 └── README.md
 ```
 
@@ -268,22 +267,16 @@ This repository is a **standalone Zephyr application** — copy/clone it into an
 
 ### 1. Set WiFi credentials
 
-They are deliberately **not** in `prj.conf`:
+Edit the two lines near the bottom of [`prj.conf`](prj.conf):
 
-```bash
-cp prj.local.conf.example prj.local.conf
-# edit prj.local.conf
+```ini
+CONFIG_WIFI_SSID="your-ssid"
+CONFIG_WIFI_PSK="your-password"
 ```
 
-Build with the file merged in:
+If the placeholders are left in place, the firmware logs a clear error and exits instead of silently failing to connect.
 
-```bash
-west build -b esp32_devkitc_procpu -- -DEXTRA_CONF_FILE=prj.local.conf
-```
-
-<sub>Zephyr &lt; 3.4 uses `-DOVERLAY_CONFIG=prj.local.conf` instead of `EXTRA_CONF_FILE`.</sub>
-
-With no credentials the firmware logs a clear error and exits instead of silently failing to connect.
+> Keep real credentials out of a public repo. If they were ever committed, rotate the password.
 
 ### 2. Set the backend address
 
@@ -297,7 +290,7 @@ Edit [`src/server_config.h`](src/server_config.h):
 ### 3. Build, flash, monitor
 
 ```bash
-west build -b esp32_devkitc_procpu -- -DEXTRA_CONF_FILE=prj.local.conf
+west build -b esp32_devkitc_procpu
 west flash
 west espressif monitor
 ```
@@ -328,7 +321,7 @@ curl -X POST localhost:8000/events -H 'Content-Type: application/json' \
 
 | Setting | Where | Default |
 | :--- | :--- | :--- |
-| WiFi SSID / PSK | `prj.local.conf` (git-ignored) | empty — must be set |
+| WiFi SSID / PSK | `prj.conf` | placeholders — must be changed |
 | Backend host / port | `src/server_config.h` | `192.168.1.246:8000` |
 | Sync interval | `employees_sync_start_periodic(15)` in `src/main.c` | 15 s |
 | Card cooldown | `CARD_COOLDOWN_MS` in `src/main.c` | 3000 ms |
@@ -343,7 +336,7 @@ curl -X POST localhost:8000/events -H 'Content-Type: application/json' \
 
 | Symptom | Likely cause |
 | :--- | :--- |
-| `No WiFi credentials configured` | `prj.local.conf` missing or not passed via `-DEXTRA_CONF_FILE` |
+| `WiFi credentials not set` | edit `CONFIG_WIFI_SSID` / `CONFIG_WIFI_PSK` in `prj.conf` |
 | `Timeout waiting for IP address` | Wrong SSID/PSK, 5 GHz-only network (the ESP32 is 2.4 GHz), or weak signal |
 | `Failed to initialize MFRC522` | SPI wiring, CS/RST pins, or 5 V power on the MFRC522 |
 | Card read but always denied | Whitelist empty: sync failed, or the UID format from the server differs from the local hex string |
